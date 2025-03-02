@@ -1,0 +1,43 @@
+{
+  "groups": [
+    {
+      "name": "dynamic",
+      "type": "io.renren.datasource.properties.DynamicDataSourceProperties",
+      "sourceType": "io.renren.datasource.properties.DynamicDataSourceProperties"
+    },
+    {
+      "name": "renren.jwt",
+      "type": "io.renren.modules.app.utils.JwtUtils",
+      "sourceType": "io.renren.modules.app.utils.JwtUtils"
+    },
+    {
+      "name": "virtuel",
+      "type": "io.renren.common.utils.MyFileConfig",
+      "sourceType": "io.renren.common.utils.MyFileConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "dynamic.datasource",
+      "type": "java.util.Map<java.lang.String,io.renren.datasource.properties.DataSourceProperties>",
+      "sourceType": "io.renren.datasource.properties.DynamicDataSourceProperties"
+    },
+    {
+      "name": "renren.jwt.expire",
+      "type": "java.lang.Long",
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "defaultValue": 0
+    },
+    {
+      "name": "renren.jwt.header",
+      "type": "java.lang.String",
+      "sourceType": "io.renren.modules.app.utils.JwtUtils"
+    },
+    {
+      "name": "renren.jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "io.renren.modules.app.utils.JwtUtils"
+    }
+  ],
+  "hints": []
+}
