@@ -17,6 +17,7 @@ import io.renren.modules.app.dao.UserDao;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.app.form.LoginForm;
 import io.renren.modules.app.service.UserService;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,20 +26,21 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
 
 	@Override
-	public UserEntity queryByMobile(String mobile) {
-		return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
+	public UserEntity queryByEmail(String email) {
+		return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("email", email));
 	}
 
 	@Override
-	public long login(LoginForm form) {
-		UserEntity user = queryByMobile(form.getMobile());
-		Assert.isNull(user, "手机号或密码错误");
+	public UserEntity login(LoginForm form) {
+		UserEntity user = queryByEmail(form.getUsername());
+		return user;
+	}
 
-		//密码错误
-		if(!user.getPassword().equals(DigestUtils.sha256Hex(form.getPassword()))){
-			throw new RRException("手机号或密码错误");
-		}
-
-		return user.getUserId();
+	@Override
+	public boolean updatePassword(String email, String password) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setPassword(password);
+		return this.update(userEntity,
+				new QueryWrapper<UserEntity>().eq("email", email));
 	}
 }

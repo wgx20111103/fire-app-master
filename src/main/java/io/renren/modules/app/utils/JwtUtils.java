@@ -28,7 +28,7 @@ import java.util.Date;
 public class JwtUtils {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String secret;
+    private String secret="fire-app";
     private long expire;
     private String header;
 
@@ -43,7 +43,6 @@ public class JwtUtils {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(userId+"")
-                .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();

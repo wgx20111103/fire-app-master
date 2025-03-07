@@ -27,7 +27,7 @@ import java.util.List;
  * @author Mark sunlightcs@gmail.com
  */
 @Data
-@TableName("sys_user")
+@TableName("user")
 public class SysUserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -36,12 +36,6 @@ public class SysUserEntity implements Serializable {
 	 */
 	@TableId
 	private Long userId;
-
-	/**
-	 * 用户名
-	 */
-	@NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
-	private String username;
 
 	/**
 	 * 密码
@@ -88,11 +82,23 @@ public class SysUserEntity implements Serializable {
 	private Date createTime;
 
 	/**
-	 * 阶段名称
+	 *姓
 	 */
-	private String stage;
+	private String familyName;
 
-	private String deptId;
-	private String parentName;
+	/**
+	 *名
+	 */
+	private String givenName;
+
+	/**
+	 * 生日
+	 */
+	private Date birthDate;
+
+	/**
+	 * 语言  0 中 1英 2西班牙
+	 */
+	private int language;
 
 }

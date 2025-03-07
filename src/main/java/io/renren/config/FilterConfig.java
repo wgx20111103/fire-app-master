@@ -1,41 +1,25 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package io.renren.config;
 
 import io.renren.common.xss.XssFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 
-/**
- * Filter配置
- *
- * @author Mark sunlightcs@gmail.com
- */
+/*** @author shaoduo* @program wrapper-demo* @description 过滤器配置类* @since 1.0**/
 @Configuration
 public class FilterConfig {
 
     @Bean
-    public FilterRegistrationBean shiroFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new DelegatingFilterProxy("shiroFilter"));
-        //该值缺省为false，表示生命周期由SpringApplicationContext管理，设置为true则表示由ServletContainer管理
-        registration.addInitParameter("targetFilterLifecycle", "true");
-        registration.setEnabled(true);
-        registration.setOrder(Integer.MAX_VALUE - 1);
+    public FilterRegistrationBean<CrossDomainFilter> crossDomainFilterRegistration() {
+        FilterRegistrationBean<CrossDomainFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new CrossDomainFilter());
+        registration.setOrder(1); //
         registration.addUrlPatterns("/*");
         return registration;
     }
-
     @Bean
     public FilterRegistrationBean xssFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -43,7 +27,13 @@ public class FilterConfig {
         registration.setFilter(new XssFilter());
         registration.addUrlPatterns("/*");
         registration.setName("xssFilter");
+        StringBuffer buffer=new StringBuffer();
+        //登录
+        buffer.append("/fire-app/app/login,/fire-app/swagger/");;
+        registration.addInitParameter("excludedUris",buffer.toString());
         registration.setOrder(Integer.MAX_VALUE);
         return registration;
     }
+
+
 }

@@ -36,7 +36,8 @@
     {
       "name": "renren.jwt.secret",
       "type": "java.lang.String",
-      "sourceType": "io.renren.modules.app.utils.JwtUtils"
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "defaultValue": "fire-app"
     }
   ],
   "hints": []

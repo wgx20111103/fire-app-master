@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
-  description: renren-fast是一个轻量级的Java快速开发平台，能快速开发项目并交付【接私活利器】
+  description:
   version: 1.0.0
-  title: 学生学校管理平台
+  title: 灭火器管理平台
 
-basePath: /renren-fast
+basePath: /fire-app
 
 schemes:
   - http

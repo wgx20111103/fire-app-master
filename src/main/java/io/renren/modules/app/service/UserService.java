@@ -20,12 +20,20 @@ import io.renren.modules.app.form.LoginForm;
  */
 public interface UserService extends IService<UserEntity> {
 
-	UserEntity queryByMobile(String mobile);
+	UserEntity queryByEmail(String mobile);
 
 	/**
 	 * 用户登录
 	 * @param form    登录表单
 	 * @return        返回用户ID
 	 */
-	long login(LoginForm form);
+	UserEntity login(LoginForm form);
+
+	/**
+	 * 修改密码
+	 * @param email       用户名
+	 * @param password    新密码
+	 * @return        返回用户ID
+	 */
+	boolean updatePassword(String email, String password);
 }

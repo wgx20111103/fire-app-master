@@ -15,10 +15,12 @@ public class JwtTest {
     private JwtUtils jwtUtils;
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
         String token = jwtUtils.generateToken(1);
+        Thread.sleep(100);
+        String token2 = jwtUtils.generateToken(1);
 
-        System.out.println(token);
+        System.out.println("t1:"+token+"t2+:"+token2);
     }
 
 }

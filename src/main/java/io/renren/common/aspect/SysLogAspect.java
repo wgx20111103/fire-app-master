@@ -12,10 +12,11 @@ import com.google.gson.Gson;
 import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.HttpContextUtils;
 import io.renren.common.utils.IPUtils;
+import io.renren.common.utils.RedisUtils;
+import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.sys.entity.SysLogEntity;
-import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysLogService;
-import org.apache.shiro.SecurityUtils;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -39,6 +40,10 @@ import java.util.Date;
 public class SysLogAspect {
 	@Autowired
 	private SysLogService sysLogService;
+
+	@Autowired
+	private RedisUtils redisUtils;
+
 	
 	@Pointcut("@annotation(io.renren.common.annotation.SysLog)")
 	public void logPointCut() { 
@@ -89,8 +94,16 @@ public class SysLogAspect {
 		//设置IP地址
 		sysLog.setIp(IPUtils.getIpAddr(request));
 
+		//从header中获取token
+		String token = request.getHeader("token");
+
+		//如果header中不存在token，则从参数中获取token
+		if(StringUtils.isBlank(token)){
+			token = request.getParameter("token");
+		}
+		UserEntity userEntity = redisUtils.get(token, UserEntity.class);
 		//用户名
-		String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
+		String username = userEntity.getEmail();
 		sysLog.setUsername(username);
 
 		sysLog.setTime(time);
