@@ -35,7 +35,6 @@ public class UserEntity implements Serializable {
 	/**
 	 * 用户ID
 	 */
-	@TableId
 	private Long userId;
 
 	/**
@@ -101,5 +100,10 @@ public class UserEntity implements Serializable {
 	 * 语言  0 中 1英 2西班牙
 	 */
 	private int language;
+
+	/**
+	 * 积分
+	 */
+	private int score;
 
 }

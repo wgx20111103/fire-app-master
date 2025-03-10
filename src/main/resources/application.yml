@@ -28,6 +28,13 @@ spring:
     basename: messages
     cache-duration: -1
     encoding: UTF-8
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    open: true
+
+
 #  resources:
 #    add-mappings: false
 

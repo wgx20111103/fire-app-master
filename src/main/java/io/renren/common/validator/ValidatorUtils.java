@@ -9,10 +9,12 @@
 package io.renren.common.validator;
 
 import io.renren.common.exception.RRException;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Set;
 
 /**
@@ -25,9 +27,17 @@ import java.util.Set;
 public class ValidatorUtils {
     private static Validator validator;
 
-    static {
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    public static ValidatorFactory createValidatorFactory() {
+        return Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory();
     }
+
+    static {
+        validator = createValidatorFactory().getValidator();
+    }
+
 
     /**
      * 校验对象

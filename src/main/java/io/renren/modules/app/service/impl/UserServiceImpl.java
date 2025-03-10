@@ -43,4 +43,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 		return this.update(userEntity,
 				new QueryWrapper<UserEntity>().eq("email", email));
 	}
+
+	@Override
+	public boolean updateByUserId(UserEntity user) {
+
+		return this.update(user,
+				new QueryWrapper<UserEntity>().eq("user_id", user.getUserId()));
+	}
 }

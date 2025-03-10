@@ -65,6 +65,6 @@ public class RegisterForm {
     /**
      * 语言  0 中 1英 2西班牙
      */
-    private int language;
+    private Integer language;
 
 }

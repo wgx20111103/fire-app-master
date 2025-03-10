@@ -36,4 +36,10 @@ public interface UserService extends IService<UserEntity> {
 	 * @return        返回用户ID
 	 */
 	boolean updatePassword(String email, String password);
+
+	/**
+	 *通过用户名修改
+	 * @return
+	 */
+	boolean updateByUserId(UserEntity user);
 }
