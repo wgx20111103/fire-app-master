@@ -3,7 +3,6 @@
 package io.renren.modules.app.controller;
 
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import io.renren.common.annotation.ComLogin;
 import io.renren.common.utils.*;
 import io.renren.common.validator.ValidatorUtils;
