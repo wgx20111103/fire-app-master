@@ -1,10 +1,17 @@
 package io.renren.modules.app.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.renren.common.utils.RedisUtils;
 import io.renren.modules.app.entity.HouseEntity;
+import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.app.service.HouseService;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -26,10 +34,13 @@ import io.renren.common.utils.R;
  * @date 2025-03-10 10:31:39
  */
 @RestController
-@RequestMapping("generator/house")
+@RequestMapping("app/house")
 public class HouseController {
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 列表
@@ -85,6 +96,23 @@ public class HouseController {
 		houseService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 查询所管理的房产
+     */
+    @RequestMapping("/queryList")
+    @ApiOperation("获取房产")
+    public R queryList(HttpServletRequest request){
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token)){
+            return R.error(503, "token已失效,请重新登录!");
+        }
+        UserEntity userInfoVo = redisUtils.get(token, UserEntity.class);
+        LambdaQueryWrapper<HouseEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(HouseEntity::getUserO, userInfoVo.getUserId()).or().eq(HouseEntity::getUserT, userInfoVo.getUserId());
+        List<HouseEntity> list = houseService.list(wrapper);
+        return R.ok().put("houseList", list);
     }
 
 }
