@@ -112,6 +112,7 @@ public class HouseController {
         LambdaQueryWrapper<HouseEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(HouseEntity::getUserO, userInfoVo.getUserId()).or().eq(HouseEntity::getUserT, userInfoVo.getUserId());
         List<HouseEntity> list = houseService.list(wrapper);
+        
         return R.ok().put("houseList", list);
     }
 
