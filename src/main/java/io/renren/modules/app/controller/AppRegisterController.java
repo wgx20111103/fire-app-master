@@ -3,6 +3,8 @@
 package io.renren.modules.app.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.renren.common.annotation.ComLogin;
 import io.renren.common.utils.*;
 import io.renren.common.validator.ValidatorUtils;
@@ -20,14 +22,10 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 注册
@@ -218,6 +216,23 @@ public class AppRegisterController {
         RemarkEntity remarkEntity = remarkEntities.get(0);
         List<FaqEntity> faqEntities = faqService.listByMap(columnMap);
         return R.ok().put("remark", remarkEntity).put("faqList", faqEntities);
+    }
+
+    @PostMapping("queryUserList")
+    @ApiOperation("获取所有用户信息")
+    public R queryUserList(@RequestBody Map<String, Object> params) {
+
+        String email = CheckUtil.objToString(params.get("email"));
+        List<UserEntity> userEntities=new ArrayList<>();
+        if (StringUtils.isEmpty(email)) {//查询全部
+            userEntities = userService.list();
+        }else {
+            LambdaQueryWrapper<UserEntity> lambdaQueryWrapper = Wrappers.lambdaQuery();
+            lambdaQueryWrapper.like(UserEntity::getEmail, email);
+            userEntities = userService.list(lambdaQueryWrapper);
+        }
+
+        return R.ok().put("userList", userEntities);
     }
 
 }

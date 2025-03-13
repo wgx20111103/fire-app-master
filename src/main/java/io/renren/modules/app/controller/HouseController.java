@@ -6,9 +6,12 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.renren.common.utils.CheckUtil;
 import io.renren.common.utils.RedisUtils;
+import io.renren.modules.app.entity.DeviceEntity;
 import io.renren.modules.app.entity.HouseEntity;
 import io.renren.modules.app.entity.UserEntity;
+import io.renren.modules.app.service.DeviceService;
 import io.renren.modules.app.service.HouseService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +45,9 @@ public class HouseController {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private DeviceService deviceService;
+
     /**
      * 列表
      */
@@ -69,10 +75,23 @@ public class HouseController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("generator:house:save")
-    public R save(@RequestBody HouseEntity house){
-		houseService.save(house);
+    public R save(@RequestBody HouseEntity house,HttpServletRequest request){
 
+        if (house.getId()!=null && house.getId()!=0){//如果不新增用户名就默认为当前用户
+            String token = request.getHeader("token");
+            if (StringUtils.isBlank(token)){
+                return R.error(503, "token已失效,请重新登录!");
+            }
+            UserEntity userInfoVo = redisUtils.get(token, UserEntity.class);
+            house.setUser(userInfoVo.getEmail());
+        }
+
+        //通过地址绑定设备
+        DeviceEntity device = deviceService.getOne(new LambdaQueryWrapper<DeviceEntity>().eq(DeviceEntity::getIpAddress, house.getHouseAddress()));
+        if (device != null){
+            house.setDeviceBindingId(device.getId());
+        }
+        houseService.saveOrUpdate(house);
         return R.ok();
     }
 
@@ -110,7 +129,11 @@ public class HouseController {
         }
         UserEntity userInfoVo = redisUtils.get(token, UserEntity.class);
         LambdaQueryWrapper<HouseEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(HouseEntity::getUserO, userInfoVo.getUserId()).or().eq(HouseEntity::getUserT, userInfoVo.getUserId());
+        wrapper.eq(HouseEntity::getUserO, userInfoVo.getEmail())
+                .or()
+                .eq(HouseEntity::getUserT, userInfoVo.getEmail())
+                .or()
+                .eq(HouseEntity::getUser, userInfoVo.getEmail());
         List<HouseEntity> list = houseService.list(wrapper);
         
         return R.ok().put("houseList", list);

@@ -52,4 +52,9 @@ public class HouseEntity implements Serializable {
 	 */
 	private String userT;
 
+	/**
+	 * 所属人
+	 */
+	private String user;
+
 }

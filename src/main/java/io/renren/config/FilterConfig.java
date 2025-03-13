@@ -29,7 +29,7 @@ public class FilterConfig {
         registration.setName("xssFilter");
         StringBuffer buffer=new StringBuffer();
         //登录
-        buffer.append("/fire-app/app/login,/fire-app/swagger/");;
+        buffer.append("/fire-app/app/login,/fire-app/swagger/,/fire-app/app/logout");;
         registration.addInitParameter("excludedUris",buffer.toString());
         registration.setOrder(Integer.MAX_VALUE);
         return registration;
