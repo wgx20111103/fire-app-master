@@ -60,6 +60,14 @@ mybatis-plus:
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
 
+mqtt:
+  broker:
+    url: tcp://broker.hivemq.com:1883
+  client:
+    id: spring-boot-client
+  default:
+    topic: test/topic
+
 
 
 #文件虚拟路径
