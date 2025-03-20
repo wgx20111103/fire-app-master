@@ -53,4 +53,16 @@ public class AlarmRecordEntity implements Serializable {
 	 */
 	private Long houseId;
 
+	/**
+	 * 报警类型：0触犯开始 1启动设备中 2报警结束
+	 */
+	private Integer type;
+
+	/**
+	 * 消除类型：0开始 1结束
+	 */
+	private Integer typeClean;
+
+
+
 }

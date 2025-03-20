@@ -13,7 +13,20 @@
         <result property="lat" column="lat"/>
         <result property="userO" column="user_o"/>
         <result property="userT" column="user_t"/>
+        <result property="user" column="user"/>
+        <result property="alarmDistance" column="alarm_distance"/>
     </resultMap>
 
+    <select id="queryBingdingHouse" resultMap="houseMap">
+        SELECT
+            h.*,
+            d.alarm_distance
+        FROM
+            house h
+                LEFT JOIN
+            device d ON h.device_binding_id = d.id
+        WHERE
+            h.device_binding_id > 0
+    </select>
 
 </mapper>

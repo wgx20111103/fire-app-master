@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.app.entity.HouseEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 房产资源表
  * 
@@ -13,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface HouseDao extends BaseMapper<HouseEntity> {
-	
+    List<HouseEntity> queryBingdingHouse();
 }

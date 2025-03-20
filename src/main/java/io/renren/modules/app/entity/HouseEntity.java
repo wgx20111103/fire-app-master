@@ -57,4 +57,9 @@ public class HouseEntity implements Serializable {
 	 */
 	private String user;
 
+	/**
+	 * 报警距离
+	 */
+	private Double alarmDistance;
+
 }

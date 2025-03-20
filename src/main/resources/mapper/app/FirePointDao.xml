@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.app.dao.FirePointDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.app.entity.FirePointEntity" id="firePointMap">
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="brightTi4" column="bright_ti4"/>
+        <result property="scan" column="scan"/>
+        <result property="track" column="track"/>
+        <result property="acqDate" column="acq_date"/>
+        <result property="acqTime" column="acq_time"/>
+        <result property="frp" column="frp"/>
+        <result property="daynight" column="daynight"/>
+    </resultMap>
+
+
+</mapper>

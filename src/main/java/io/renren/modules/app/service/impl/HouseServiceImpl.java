@@ -4,6 +4,8 @@ import io.renren.modules.app.dao.HouseDao;
 import io.renren.modules.app.entity.HouseEntity;
 import io.renren.modules.app.service.HouseService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,6 +27,11 @@ public class HouseServiceImpl extends ServiceImpl<HouseDao, HouseEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<HouseEntity> queryBingdingHouse(){
+        return baseMapper.queryBingdingHouse();
     }
 
 }
