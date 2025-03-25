@@ -1,0 +1,10 @@
+.idea/
+*.iml
+*.class
+target/
+log/
+logs/
+.svn/
+application-dev.properties
+*.log
+*/log4j.properties

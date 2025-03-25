@@ -106,4 +106,27 @@ public class UserEntity implements Serializable {
 	 */
 	private int score;
 
+	/**
+	 *国家
+	 */
+	private String country;
+
+	/**
+	 *区号
+	 */
+	private String areaCode;
+
+	/**
+	 * 地址名称
+	 */
+	private String address;
+	/**
+	 * 经度
+	 */
+	private Double lon;
+	/**
+	 * 纬度
+	 */
+	private Double lat;
+
 }
