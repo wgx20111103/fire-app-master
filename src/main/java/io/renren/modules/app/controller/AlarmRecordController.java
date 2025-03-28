@@ -26,7 +26,7 @@ import io.renren.common.utils.R;
  * @date 2025-03-10 10:31:39
  */
 @RestController
-@RequestMapping("generator/alarmrecord")
+@RequestMapping("app/alarmrecord")
 public class AlarmRecordController {
     @Autowired
     private AlarmRecordService alarmRecordService;
@@ -85,6 +85,12 @@ public class AlarmRecordController {
 		alarmRecordService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/queryByHouseId")
+    public R queryByHouseId(@RequestBody Long houseId){
+        AlarmRecordEntity alarmRecordEntity = alarmRecordService.queryByHouseId(houseId);
+        return R.ok().put("alarmRecord", alarmRecordEntity);
     }
 
 }
