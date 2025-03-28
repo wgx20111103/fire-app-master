@@ -16,5 +16,8 @@ import java.util.Map;
 public interface DeviceService extends IService<DeviceEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+
+    DeviceEntity getDeviceByHouseId(Long houseId);
 }
 

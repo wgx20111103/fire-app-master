@@ -59,7 +59,7 @@ public class Thread_Fire_Send implements Runnable{
                          typeOpera = alarmRecordEntity.getTypeOpera();//忽略操做：0无操作 1忽略报警 2忽略喷淋
                          alarmTime = alarmRecordEntity.getAlarmTime();
                     }
-                    long tMinutes = DateUtil.getTimeDifferenceInMinutes(new Date(), alarmTime);//当前时间与报警时间差
+                    Long tMinutes = DateUtil.getTimeDifferenceInMinutes(new Date(), alarmTime);//当前时间与报警时间差
                     //判断该房产是否推送报警信息
                     for (FirePointEntity firePointEntity : dataList) {
                         Double alarmNow = VincentyDistanceCalculator.calculateDistance(houseEntity.getLat(), houseEntity.getLon(), firePointEntity.getLatitude(), firePointEntity.getLongitude());
@@ -117,6 +117,7 @@ public class Thread_Fire_Send implements Runnable{
                             }
                             if(alarmRecordEntity!=null){
                                 alarmRecordEntity.setTypeClean(1);
+                                alarmRecordEntity.setTime(tMinutes.intValue());
                                 alarmRecordService.updateById(alarmRecordEntity);
                             }
                         }

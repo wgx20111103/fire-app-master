@@ -27,4 +27,10 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceDao, DeviceEntity> impl
         return new PageUtils(page);
     }
 
+    @Override
+    public DeviceEntity getDeviceByHouseId(Long houseId){
+        return baseMapper.getDeviceByHouseId(houseId);
+    }
+
+
 }

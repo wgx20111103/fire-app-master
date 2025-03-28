@@ -14,5 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DeviceDao extends BaseMapper<DeviceEntity> {
+
+    DeviceEntity getDeviceByHouseId(Long houseId);
 	
 }

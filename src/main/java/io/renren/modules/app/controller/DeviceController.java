@@ -3,6 +3,7 @@ package io.renren.modules.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.modules.app.entity.AlarmRecordEntity;
 import io.renren.modules.app.entity.DeviceEntity;
 import io.renren.modules.app.service.DeviceService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,7 +28,7 @@ import io.renren.common.utils.R;
  * @date 2025-03-13 09:14:06
  */
 @RestController
-@RequestMapping("generator/device")
+@RequestMapping("app/device")
 public class DeviceController {
     @Autowired
     private DeviceService deviceService;
@@ -86,6 +87,17 @@ public class DeviceController {
 		deviceService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 根据houseId打开设备
+     * @param houseId
+     * @return
+     */
+    @RequestMapping("/queryByHouseId")
+    public R queryByHouseId(@RequestBody Long houseId){
+        DeviceEntity device = deviceService.getDeviceByHouseId(houseId);
+        return R.ok().put("device", device);
     }
 
 }
