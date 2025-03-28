@@ -63,6 +63,13 @@ public class AlarmRecordEntity implements Serializable {
 	 */
 	private Integer typeClean;
 
+	/**
+	 * 忽略超做：0无操作 1忽略报警 2忽略喷淋
+	 */
+	private Integer typeOpera;
+
+
+
 
 
 }

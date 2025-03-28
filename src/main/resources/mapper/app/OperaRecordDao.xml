@@ -9,10 +9,11 @@
         <result property="address" column="address"/>
         <result property="lon" column="lon"/>
         <result property="lat" column="lat"/>
-        <result property="createUserId" column="create_user_id"/>
+        <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="endTime" column="end_time"/>
         <result property="houseId" column="house_id"/>
+        <result property="alarmId" column="alarm_id"/>
     </resultMap>
 
 

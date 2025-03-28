@@ -17,5 +17,7 @@ import java.util.Map;
 public interface AlarmRecordService extends IService<AlarmRecordEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    AlarmRecordEntity queryByHouseId(Long houseId);
 }
 

@@ -124,4 +124,32 @@ public class Constant {
         }
     }
 
+    /**
+     * 报警类型：0触犯开始 1启动设备中 2报警结束
+     */
+    public enum AlarmService {
+        /**
+         * 触犯报警
+         */
+        AST(0),
+        /**
+         * 启动设备中
+         */
+        ARUN(1),
+        /**
+         * 报警结束
+         */
+        ASTOP(2);
+
+        private int value;
+
+        AlarmService(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
 }

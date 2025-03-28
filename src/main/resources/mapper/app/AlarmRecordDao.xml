@@ -13,7 +13,19 @@
         <result property="time" column="time"/>
         <result property="alarmTime" column="alarm_time"/>
         <result property="houseId" column="house_id"/>
+        <result property="type" column="type"/>
+        <result property="typeClean" column="type_clean"/>
+        <result property="typeOpera" column="type_opera"/>
     </resultMap>
 
+    <select id="queryByHouseId" resultMap="alarmRecordMap">
+        SELECT
+            a.*
+        FROM
+            alarm_record a
+        WHERE
+            a.house_id = #{houseId}
+           order by a.alarm_time desc limit 1
+    </select>
 
 </mapper>

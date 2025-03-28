@@ -26,4 +26,8 @@ public class AlarmRecordServiceImpl extends ServiceImpl<AlarmRecordDao, AlarmRec
         return new PageUtils(page);
     }
 
+    @Override
+    public AlarmRecordEntity queryByHouseId(Long houseId){
+        return baseMapper.queryByHouseId(houseId);
+    }
 }

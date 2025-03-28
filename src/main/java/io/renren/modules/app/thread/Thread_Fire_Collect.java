@@ -23,7 +23,9 @@ public class Thread_Fire_Collect implements Runnable{
         while (true) {
             try {
                 RestTemplate restTemplate = RestTemplateConfig.getRestTemplate();
-                String url="http://firms.modaps.eosdis.nasa.gov/api/area/csv/aa4b8fe40253876c2e724d87d44cfaff/VIIRS_NOAA20_NRT/-140,24.5,-60,60/1/"+DateUtil.getStrFromDate(new Date(), "yyyy-MM-dd");
+                //String url="http://firms.modaps.eosdis.nasa.gov/api/area/csv/aa4b8fe40253876c2e724d87d44cfaff/VIIRS_NOAA20_NRT/-140,24.5,-60,60/1/"+DateUtil.getStrFromDate(new Date(), "yyyy-MM-dd");
+                String url="http://firms.modaps.eosdis.nasa.gov/api/area/csv/aa4b8fe40253876c2e724d87d44cfaff/VIIRS_NOAA20_NRT/-140,24.5,-60,60/1/"+"2025-03-28";
+
                 //调用接口
                 String result = restTemplate.getForObject(url,String.class);
                 List<FirePointEntity> dataList = new ArrayList<>();
@@ -60,10 +62,10 @@ public class Thread_Fire_Collect implements Runnable{
                     firePointService.save(dataObj);
                 }
                 //调用推送服务
-                if(dataList.size()>0){
-                    Thread thread = new Thread(new Thread_Fire_Send(dataList));
-                    thread.run();
-                }
+                Thread thread = new Thread(new Thread_Fire_Send(dataList));
+                thread.run();
+
+
                 Thread.sleep(120000);  //2分钟轮询一次
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);

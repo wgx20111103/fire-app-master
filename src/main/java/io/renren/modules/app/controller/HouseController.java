@@ -8,9 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.renren.common.utils.CheckUtil;
 import io.renren.common.utils.RedisUtils;
+import io.renren.modules.app.entity.AlarmRecordEntity;
 import io.renren.modules.app.entity.DeviceEntity;
 import io.renren.modules.app.entity.HouseEntity;
 import io.renren.modules.app.entity.UserEntity;
+import io.renren.modules.app.service.AlarmRecordService;
 import io.renren.modules.app.service.DeviceService;
 import io.renren.modules.app.service.HouseService;
 import io.swagger.annotations.ApiOperation;
@@ -47,6 +49,10 @@ public class HouseController {
 
     @Autowired
     private DeviceService deviceService;
+
+    @Autowired
+    private AlarmRecordService alarmRecordService;
+
 
     /**
      * 列表
@@ -135,6 +141,19 @@ public class HouseController {
                 .or()
                 .eq(HouseEntity::getUser, userInfoVo.getEmail());
         List<HouseEntity> list = houseService.list(wrapper);
+
+        if (list!=null && list.size()>0){
+           //补充最新报警状态
+            for (HouseEntity houseEntity:list) {
+                //查询该房子报警记录最后一次操作
+                AlarmRecordEntity alarmRecordEntity = alarmRecordService.queryByHouseId(houseEntity.getId());
+                if (alarmRecordEntity!=null){
+                    houseEntity.setType(alarmRecordEntity.getType());
+                    houseEntity.setTypeClean(alarmRecordEntity.getTypeClean());
+                    houseEntity.setTypeOpera(alarmRecordEntity.getTypeOpera());
+                }
+            }
+        }
         
         return R.ok().put("houseList", list);
     }

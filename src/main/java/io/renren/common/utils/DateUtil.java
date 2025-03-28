@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -360,7 +362,33 @@ public class DateUtil {
 	    long days = diff / (1000 * 60 * 60 * 24);
 	    return (int)days;
 	}
-	
+
+	/**
+	 * 获取两个 Date 对象之间的时间差, 以分钟为单位
+	 *
+	 * @param startDate 第一个时间
+	 * @param endDate 第二个时间
+	 * @return 时间差, 以分钟为单位
+	 */
+	public static long getTimeDifferenceInMinutes(Date startDate, Date endDate) {
+		if (startDate == null || endDate == null) {
+			throw new IllegalArgumentException("Date objects cannot be null");
+		}
+
+		// 将 Date 转换为 Instant
+		Instant startInstant = startDate.toInstant();
+		Instant endInstant = endDate.toInstant();
+
+		// 计算两个 Instant 之间的差值
+		Duration duration = Duration.between(startInstant, endInstant);
+
+		// 获取差值以分钟为单位
+		long minutes = duration.toMinutes();
+
+		return minutes;
+	}
+
+
 	/**
 	 * 自动适配两种格式的日期字符串转换为date对象
 	 * A格式	:	yyyy-MM-dd HH:mm:ss

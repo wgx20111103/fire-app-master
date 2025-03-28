@@ -62,4 +62,19 @@ public class HouseEntity implements Serializable {
 	 */
 	private Double alarmDistance;
 
+	/**
+	 * 报警类型：0触犯开始 1启动设备中 2报警结束
+	 */
+	private Integer type;
+
+	/**
+	 * 消除类型：0开始 1结束
+	 */
+	private Integer typeClean;
+
+	/**
+	 * 忽略超做：0无操作 1忽略报警 2忽略喷淋
+	 */
+	private Integer typeOpera;
+
 }

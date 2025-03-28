@@ -50,8 +50,6 @@ public class AppLoginController {
     @Autowired
     private UserService userService;
     @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
     private RedisUtils redisUtils;
 
     @Autowired

@@ -4,6 +4,7 @@ package io.renren.modules.app.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.app.entity.AlarmRecordEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 报警记录表
@@ -14,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AlarmRecordDao extends BaseMapper<AlarmRecordEntity> {
-	
+
+    AlarmRecordEntity queryByHouseId(@Param("houseId")Long houseId);
 }

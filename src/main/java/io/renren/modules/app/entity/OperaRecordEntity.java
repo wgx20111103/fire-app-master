@@ -39,7 +39,7 @@ public class OperaRecordEntity implements Serializable {
 	/**
 	 * 创建者ID
 	 */
-	private Long createUserId;
+	private String createUser;
 	/**
 	 * 创建时间
 	 */
@@ -52,5 +52,10 @@ public class OperaRecordEntity implements Serializable {
 	 * 房产id
 	 */
 	private Long houseId;
+
+	/**
+	 * 报警记录id
+	 */
+	private Integer alarmId;
 
 }
