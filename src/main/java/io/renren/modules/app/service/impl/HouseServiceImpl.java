@@ -1,5 +1,6 @@
 package io.renren.modules.app.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.renren.modules.app.dao.HouseDao;
 import io.renren.modules.app.entity.HouseEntity;
 import io.renren.modules.app.service.HouseService;
@@ -32,6 +33,11 @@ public class HouseServiceImpl extends ServiceImpl<HouseDao, HouseEntity> impleme
     @Override
     public List<HouseEntity> queryBingdingHouse(){
         return baseMapper.queryBingdingHouse();
+    }
+
+    @Override
+    public boolean existsByHouseAddress(String houseAddress) {
+        return getOne(new LambdaQueryWrapper<HouseEntity>().eq(HouseEntity::getHouseAddress, houseAddress)) != null;
     }
 
 }

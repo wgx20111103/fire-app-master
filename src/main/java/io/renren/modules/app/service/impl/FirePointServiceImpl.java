@@ -2,8 +2,11 @@ package io.renren.modules.app.service.impl;
 
 import io.renren.modules.app.dao.FirePointDao;
 import io.renren.modules.app.entity.FirePointEntity;
+import io.renren.modules.app.entity.FirePointREntity;
 import io.renren.modules.app.service.FirePointService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -27,4 +30,8 @@ public class FirePointServiceImpl extends ServiceImpl<FirePointDao, FirePointEnt
         return new PageUtils(page);
     }
 
+    @Override
+    public List<FirePointEntity> queryListByTime(String nowDate, String beforeDate, String nowDateHHmm){
+        return baseMapper.queryListByTime(nowDate, beforeDate, nowDateHHmm);
+    }
 }

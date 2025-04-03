@@ -129,4 +129,9 @@ public class UserEntity implements Serializable {
 	 */
 	private Double lat;
 
+	/**
+	 * 房产别名
+	 */
+	private String houseName;
+
 }

@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -88,5 +89,29 @@ public class RedisUtils {
      */
     private <T> T fromJson(String json, Class<T> clazz){
         return gson.fromJson(json, clazz);
+    }
+
+    /**
+     * 将List对象放入Redis
+     */
+    public <T> void setList(String key, List<T> list, long expire) {
+        ListOperations<String, String> listOps = redisTemplate.opsForList();
+        for (T item : list) {
+            listOps.rightPush(key, toJson(item));
+        }
+        if (expire != NOT_EXPIRE) {
+            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
+        }
+    }
+
+    /**
+     * 从Redis中获取List对象
+     */
+    public <T> List<T> getList(String key, Class<T> clazz) {
+        ListOperations<String, String> listOps = redisTemplate.opsForList();
+        List<String> list = listOps.range(key, 0, -1);
+        return list.stream()
+                .map(json -> fromJson(json, clazz))
+                .collect(java.util.stream.Collectors.toList());
     }
 }

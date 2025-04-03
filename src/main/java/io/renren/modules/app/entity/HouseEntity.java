@@ -1,7 +1,9 @@
 package io.renren.modules.app.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -65,16 +67,19 @@ public class HouseEntity implements Serializable {
 	/**
 	 * 报警类型：0触犯开始 1启动设备中 2报警结束
 	 */
+	@TableField(exist = false)
 	private Integer type;
 
 	/**
 	 * 消除类型：0开始 1结束
 	 */
+	@TableField(exist = false)
 	private Integer typeClean;
 
 	/**
 	 * 忽略超做：0无操作 1忽略报警 2忽略喷淋
 	 */
+	@TableField(exist = false)
 	private Integer typeOpera;
 
 }

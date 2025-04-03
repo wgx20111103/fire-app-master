@@ -11,7 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 @EnableAutoConfiguration
+@EnableScheduling
 @ComponentScan(basePackages = {"io.renren"})
 @ServletComponentScan
 @SpringBootApplication(scanBasePackages = "io.renren")

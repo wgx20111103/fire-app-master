@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 
 /**
@@ -13,16 +15,17 @@ import lombok.Data;
  * 
  * @author chenshun
  * @email sunlightcs@gmail.com
- * @date 2025-03-18 17:23:39
+ * @date 2025-04-01 14:39:33
  */
 @Data
-@TableName("fire_point")
-public class FirePointEntity implements Serializable {
+@TableName("fire_point_r")
+public class FirePointREntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 纬度
 	 */
+	@TableId
 	private Double latitude;
 	/**
 	 * 经度
@@ -43,7 +46,7 @@ public class FirePointEntity implements Serializable {
 	/**
 	 * 数据采集日期
 	 */
-	private String acqDate;
+	private Date acqDate;
 	/**
 	 * 数据采集时间（可能是UTC时间的一部分）
 	 */

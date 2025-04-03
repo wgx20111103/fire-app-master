@@ -3,7 +3,11 @@ package io.renren.modules.app.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.app.entity.FirePointEntity;
+import io.renren.modules.app.entity.FirePointREntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 火点记录表
@@ -14,5 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FirePointDao extends BaseMapper<FirePointEntity> {
-	
+
+    List<FirePointEntity> queryListByTime(@Param("nowDate")String nowDate, @Param("beforeDate")String beforeDate, @Param("nowDateHHmm")String nowDateHHmm);
+
 }

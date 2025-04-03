@@ -91,7 +91,10 @@ public class HouseController {
             UserEntity userInfoVo = redisUtils.get(token, UserEntity.class);
             house.setUser(userInfoVo.getEmail());
         }
-
+        // 校验 houseAddress 是否唯一
+        if (houseService.existsByHouseAddress(house.getHouseAddress())) {
+            return R.error(501, "houseAddress 已存在，请使用其他地址!");
+        }
         //通过地址绑定设备
         DeviceEntity device = deviceService.getOne(new LambdaQueryWrapper<DeviceEntity>().eq(DeviceEntity::getIpAddress, house.getHouseAddress()));
         if (device != null){
@@ -156,6 +159,32 @@ public class HouseController {
         }
         
         return R.ok().put("houseList", list);
+    }
+
+    @RequestMapping("/unbindHouse")
+    @ApiOperation("获取房产")
+    public R unbindHouse(@RequestBody Map<String, Object> params,HttpServletRequest request){
+        Long houseId = CheckUtil.objToLong(params.get("houseId"));
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token)){
+            return R.error(503, "token已失效,请重新登录!");
+        }
+        UserEntity userInfoVo = redisUtils.get(token, UserEntity.class);
+        LambdaQueryWrapper<HouseEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(HouseEntity::getId, houseId);
+        HouseEntity houseEntity = houseService.getOne(wrapper);
+        String email = userInfoVo.getEmail();
+        if (houseEntity.getUser().equals(email)){
+            houseEntity.setUser("");
+        }
+        if (houseEntity.getUserO().equals(email)){
+            houseEntity.setUserO("");
+        }
+        if (houseEntity.getUserT().equals(email)){
+            houseEntity.setUserT("");
+        }
+        houseService.saveOrUpdate(houseEntity);
+        return R.ok();
     }
 
 }

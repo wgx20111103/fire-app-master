@@ -16,6 +16,28 @@
         <result property="daynight" column="daynight"/>
     </resultMap>
 
+    <select id="queryListByTime" resultMap="firePointMap">
+        WITH NumberedFirePoints AS (
+            SELECT
+                t.*,
+                ROW_NUMBER() OVER (ORDER BY t.acq_date DESC, t.acq_time DESC) AS row_num,
+                COUNT(*) OVER () AS total_rows
+            FROM
+                fire_point_r t
+            WHERE
+                t.acq_date=#{nowDate} OR (t.acq_date=#{beforeDate}  AND T.acq_time>= #{nowDateHHmm})
+        )
+        SELECT
+            acq_time,
+            acq_date,
+            latitude,
+            longitude,
+            CEIL(row_num * 6.0 / total_rows) AS showFire
+        FROM
+            NumberedFirePoints
+        ORDER BY
+            showFire , acq_date, acq_time;
+    </select>
 
 
 

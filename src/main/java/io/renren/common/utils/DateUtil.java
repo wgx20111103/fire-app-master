@@ -343,12 +343,12 @@ public class DateUtil {
  
 	
 	/**
-	 * 获取第一个时间参数与第二个时间参数的时间差, 以天为单位
+	 * 获取第一个时间参数与第二个时间参数的时间差, 以小时为单位
 	 * 
 	 * @param firstDay 第一个时间
 	 * @param secondDay 第二个时间
 	 * @param dateFormat 时间格式, 默认为yyyy-MM-dd HH:mm:ss
-	 * @return 时间差, 以天为单位
+	 * @return 时间差, 以小时为单位
 	 * @throws ParseException 
 	 */
 	public static int getTimeDifferenceOther(String firstDay, String secondDay, String dateFormat) throws ParseException{
@@ -359,7 +359,7 @@ public class DateUtil {
 	    Date d1 = df.parse(firstDay);
 	    Date d2 = df.parse(secondDay);
 	    long diff = d1.getTime() - d2.getTime();
-	    long days = diff / (1000 * 60 * 60 * 24);
+	    long days = diff / (1000 * 60 * 60 );
 	    return (int)days;
 	}
 
@@ -384,6 +384,31 @@ public class DateUtil {
 
 		// 获取差值以分钟为单位
 		long minutes = duration.toMinutes();
+
+		return minutes;
+	}
+
+	/**
+	 * 获取两个 Date 对象之间的时间差, 以天为单位
+	 *
+	 * @param startDate 第一个时间
+	 * @param endDate 第二个时间
+	 * @return 时间差, 以天为单位
+	 */
+	public static long getTimeDifferenceInDay(Date startDate, Date endDate) {
+		if (startDate == null || endDate == null) {
+			throw new IllegalArgumentException("Date objects cannot be null");
+		}
+
+		// 将 Date 转换为 Instant
+		Instant startInstant = startDate.toInstant();
+		Instant endInstant = endDate.toInstant();
+
+		// 计算两个 Instant 之间的差值
+		Duration duration = Duration.between(startInstant, endInstant);
+
+		// 获取差值以分钟为单位
+		long minutes = duration.toDays();
 
 		return minutes;
 	}
@@ -624,6 +649,9 @@ public class DateUtil {
 
 	public static void main(String[] args) throws ParseException, InterruptedException {
 		String dbtime="2023-08-17 15:10:00.0";
+
+		long timeDifferenceInMinutes = getTimeDifferenceInMinutes(getDateFromStringAdaptTwoPattern("2025-03-31 14:40:00"),new Date());
+		System.out.println("分钟："+timeDifferenceInMinutes);
 		System.out.println(getTimeDiffer(dbtime,null));
 	}
  

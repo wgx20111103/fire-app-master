@@ -59,7 +59,7 @@ public class Thread_Fire_Send implements Runnable{
                          typeOpera = alarmRecordEntity.getTypeOpera();//忽略操做：0无操作 1忽略报警 2忽略喷淋
                          alarmTime = alarmRecordEntity.getAlarmTime();
                     }
-                    Long tMinutes = DateUtil.getTimeDifferenceInMinutes(new Date(), alarmTime);//当前时间与报警时间差
+                    Long tMinutes = DateUtil.getTimeDifferenceInMinutes( alarmTime,new Date());//当前时间与报警时间差
                     //判断该房产是否推送报警信息
                     for (FirePointEntity firePointEntity : dataList) {
                         Double alarmNow = VincentyDistanceCalculator.calculateDistance(houseEntity.getLat(), houseEntity.getLon(), firePointEntity.getLatitude(), firePointEntity.getLongitude());
@@ -87,7 +87,7 @@ public class Thread_Fire_Send implements Runnable{
                                     operaRecordEntity.setAlarmId(alarmRecordEntity.getId());
                                     operaRecordService.save(operaRecordEntity);
                                     //修改当前报警类型为启动设备中
-                                    alarmRecordEntity.setType(1);
+                                    alarmRecordEntity.setType(Constant.AlarmService.ARUN.getValue());
                                     alarmRecordService.updateById(alarmRecordEntity);
                                 }
                             }else
@@ -95,6 +95,10 @@ public class Thread_Fire_Send implements Runnable{
                             if (type == Constant.AlarmService.AST.getValue()&& typeOpera == 1){
                                 //对比时间 是否发生推送
                                 if(tMinutes>=no_message){
+                                    //修改该报警信息为结束
+                                    alarmRecordEntity.setType(Constant.AlarmService.ASTOP.getValue());
+                                    alarmRecordEntity.setTime(tMinutes.intValue());
+                                    alarmRecordService.updateById(alarmRecordEntity);
                                     saveAlarm(houseEntity,alarmNow);
                                     // TODO: 2020/7/14  推送服务
                                 }
@@ -106,18 +110,19 @@ public class Thread_Fire_Send implements Runnable{
                         // 1是否忽略喷淋
                         if (typeOpera != 2){
                             //查询当前在喷淋中 并且 当前时间超过自动关闭时间
-                            if(type==Constant.AlarmService.AST.getValue()&& tMinutes>=device_close){
+                            if(type==Constant.AlarmService.ARUN.getValue()&& tMinutes>=device_close){
                              //TODO: 2020/7/14  关闭喷淋
                                 //记录自动超做记录
                                 UpdateWrapper<OperaRecordEntity> updateWrapper = new UpdateWrapper<>();
                                 updateWrapper.eq("alarm_id", alarmRecordEntity.getId()).set("end_time", new Date());
                                 operaRecordService.update(updateWrapper);
                                 //修改该报警信息为结束
-                                alarmRecordEntity.setType(2);
+                                alarmRecordEntity.setType(Constant.AlarmService.ASTOP.getValue());
+                                alarmRecordEntity.setTime(tMinutes.intValue());
                             }
+
                             if(alarmRecordEntity!=null){
                                 alarmRecordEntity.setTypeClean(1);
-                                alarmRecordEntity.setTime(tMinutes.intValue());
                                 alarmRecordService.updateById(alarmRecordEntity);
                             }
                         }
@@ -141,7 +146,7 @@ public class Thread_Fire_Send implements Runnable{
         alarmRecordEntity.setHouseId(houseEntity.getId());
         alarmRecordEntity.setAlarmTime(new Date());
         alarmRecordEntity.setLength(alarmNow.intValue());
-        alarmRecordEntity.setType(0);
+        alarmRecordEntity.setType(Constant.AlarmService.AST.getValue());
         alarmRecordEntity.setTypeClean(0);
         alarmRecordEntity.setTypeOpera(0);
         alarmRecordService.save(alarmRecordEntity);

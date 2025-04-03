@@ -21,5 +21,9 @@ public interface HouseService extends IService<HouseEntity> {
     //查询已绑定的房产
     List<HouseEntity> queryBingdingHouse();
 
+    //查询房产是否存在
+    boolean existsByHouseAddress(String houseAddress);
+
+
 }
 
