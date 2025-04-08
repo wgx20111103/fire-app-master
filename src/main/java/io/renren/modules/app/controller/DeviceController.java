@@ -242,7 +242,8 @@ public class DeviceController {
     public R queryFirePointOld(@RequestBody Map<String, Object> params) {
         int type = CheckUtil.objToInteger(params.get("type"));//1 7天,2 30天, 3 360天
         QueryWrapper<FirePointEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("acq_date",new Date());
+        String nowDate = DateUtil.getStrFromDate(new Date(), null);
+        queryWrapper.eq("acq_date",nowDate);
         List<FirePointEntity> list = firePointService.list(queryWrapper);
         for (FirePointEntity firePointEntity:list) {
             firePointEntity.setShowFire(1l);

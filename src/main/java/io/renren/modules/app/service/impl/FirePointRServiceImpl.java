@@ -1,6 +1,7 @@
 package io.renren.modules.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.renren.common.utils.DateUtil;
 import io.renren.modules.app.dao.FirePointRDao;
 import io.renren.modules.app.entity.FirePointREntity;
 import io.renren.modules.app.service.FirePointRService;
@@ -35,8 +36,10 @@ public class FirePointRServiceImpl extends ServiceImpl<FirePointRDao, FirePointR
     @Override
     public List<FirePointREntity> queryListByDate(Date startDate, Date endDate){
         LambdaQueryWrapper<FirePointREntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.ge(FirePointREntity::getAcqDate, startDate)
-                .le(FirePointREntity::getAcqDate, endDate)
+        String nowDate = DateUtil.getStrFromDate(startDate, null);
+        String oldDate = DateUtil.getStrFromDate(endDate, null);
+        wrapper.ge(FirePointREntity::getAcqDate, nowDate)
+                .le(FirePointREntity::getAcqDate, oldDate)
                 .orderByDesc(FirePointREntity::getAcqDate)
                 .orderByDesc(FirePointREntity::getAcqTime);
 

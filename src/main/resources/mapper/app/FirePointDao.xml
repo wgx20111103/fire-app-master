@@ -25,7 +25,7 @@
             FROM
                 fire_point_r t
             WHERE
-                t.acq_date=#{nowDate} OR (t.acq_date=#{beforeDate}  AND T.acq_time>= #{nowDateHHmm})
+                t.acq_date=#{nowDate} OR (t.acq_date=#{beforeDate}  AND t.acq_time>= #{nowDateHHmm})
         )
         SELECT
             acq_time,

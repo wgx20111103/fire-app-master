@@ -81,8 +81,8 @@ public class AppRegisterController {
     @PostMapping("sendEmail")
     @ApiOperation("发送邮件")
     @ResponseBody
-    public R sendEmail(@RequestBody String email){
-
+    public R sendEmail(@RequestBody Map<String, Object> params){
+        String email = CheckUtil.objToString(params.get("email"));
         String code = EmailUtils.generateVerificationCode();
         EmailUtils.sendEmail(email, "验证码", code);
         redisUtils.set(email,code,60);
